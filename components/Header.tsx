@@ -30,9 +30,11 @@ const Header: React.FC = () => {
     <header className="bg-primary shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 md:py-4 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="bg-white p-2 rounded-full text-primary w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-lg md:text-xl group-hover:scale-105 transition-transform shrink-0">
-            <i className="fa-solid fa-church"></i>
-          </div>
+          <img 
+            src="https://sinodegko.org/wp-content/uploads/2021/08/logo_transparanresize.png" 
+            alt="Logo GKO Cibitung" 
+            className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full object-contain p-0.5 shadow-sm group-hover:scale-105 transition-transform shrink-0" 
+          />
           <div className="text-center sm:text-left">
             <h1 className="text-white font-bold text-lg md:text-xl leading-tight">GKO Cibitung</h1>
             <p className="text-blue-200 text-[10px] md:text-xs font-medium tracking-wider">WARTA JEMAAT DIGITAL</p>
@@ -44,7 +46,7 @@ const Header: React.FC = () => {
             <li>
               <Link 
                 to="/" 
-                className="text-blue-100 hover:text-white transition-colors py-2 px-2"
+                className={`text-blue-100 hover:text-white transition-colors py-2 px-2 ${location.pathname === '/' ? 'text-white font-bold' : ''}`}
               >
                 Jemaat
               </Link>
@@ -55,7 +57,7 @@ const Header: React.FC = () => {
                  <li>
                   <Link 
                     to="/admin" 
-                    className="text-blue-100 hover:text-white transition-colors py-2 px-2"
+                    className={`text-blue-100 hover:text-white transition-colors py-2 px-2 ${location.pathname === '/admin' ? 'text-white font-bold' : ''}`}
                   >
                     Dashboard
                   </Link>
@@ -65,7 +67,8 @@ const Header: React.FC = () => {
                     onClick={handleLogout}
                     className="bg-secondary text-white px-3 py-1.5 md:py-2 rounded hover:bg-blue-900 transition-colors flex items-center gap-2"
                   >
-                    <i className="fa-solid fa-right-from-bracket"></i> Keluar
+                    <i className="fa-solid fa-right-from-bracket"></i>
+                    Keluar
                   </button>
                 </li>
               </>
@@ -73,7 +76,7 @@ const Header: React.FC = () => {
               <li>
                 <Link 
                   to="/login" 
-                  className="bg-secondary text-white px-3 py-1.5 md:py-2 rounded hover:bg-blue-900 transition-colors"
+                  className={`bg-secondary text-white px-3 py-1.5 md:py-2 rounded hover:bg-blue-900 transition-colors ${location.pathname === '/login' ? 'ring-2 ring-blue-300' : ''}`}
                 >
                   Portal
                 </Link>

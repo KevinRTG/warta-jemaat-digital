@@ -13,6 +13,11 @@ const AdminView: React.FC = () => {
     driveLink: ''
   });
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Filter States
+  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedMonth, setSelectedMonth] = useState<string>('all');
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [autoSummary, setAutoSummary] = useState('');
@@ -122,10 +127,24 @@ const AdminView: React.FC = () => {
   };
 
   // Filter Logic
-  const filteredBulletins = bulletins.filter(b => 
-    b.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    b.publishDate.includes(searchQuery)
-  );
+  const uniqueYears = Array.from(new Set(bulletins.map(b => new Date(b.publishDate).getFullYear())))
+    .sort((a, b) => b - a);
+
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", 
+    "Jul", "Agt", "Sep", "Okt", "Nov", "Des"
+  ];
+
+  const filteredBulletins = bulletins.filter(b => {
+    const date = new Date(b.publishDate);
+    const matchesSearch = b.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          b.publishDate.includes(searchQuery);
+
+    const matchesYear = selectedYear === 'all' || date.getFullYear().toString() === selectedYear;
+    const matchesMonth = selectedMonth === 'all' || date.getMonth().toString() === selectedMonth;
+
+    return matchesSearch && matchesYear && matchesMonth;
+  });
 
   return (
     <div className="container mx-auto px-4 py-6 md:py-8 max-w-5xl">
@@ -231,19 +250,41 @@ const AdminView: React.FC = () => {
               </span>
             </div>
 
-            {/* Search Bar for Admin */}
-            <div className="p-4 border-b border-gray-100 bg-gray-50/50">
-              <div className="relative">
+            {/* Search Bar & Filters for Admin */}
+            <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex flex-col md:flex-row gap-2">
+              <div className="relative flex-grow">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <i className="fa-solid fa-magnifying-glass text-gray-400"></i>
                 </div>
                 <input
                   type="text"
-                  placeholder="Cari warta berdasarkan judul atau tanggal..."
+                  placeholder="Cari..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
                 />
+              </div>
+              <div className="flex gap-2">
+                 <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                >
+                  <option value="all">Thn</option>
+                  {uniqueYears.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                >
+                  <option value="all">Bln</option>
+                  {months.map((month, index) => (
+                    <option key={index} value={index}>{month}</option>
+                  ))}
+                </select>
               </div>
             </div>
             
@@ -254,7 +295,9 @@ const AdminView: React.FC = () => {
                </div>
             ) : filteredBulletins.length === 0 ? (
               <div className="p-8 text-center text-gray-500">
-                {searchQuery ? "Warta tidak ditemukan." : "Belum ada data. Silakan upload warta baru."}
+                {searchQuery || selectedYear !== 'all' || selectedMonth !== 'all' 
+                  ? "Warta tidak ditemukan dengan filter tersebut." 
+                  : "Belum ada data. Silakan upload warta baru."}
               </div>
             ) : (
               <div className="divide-y divide-gray-100">

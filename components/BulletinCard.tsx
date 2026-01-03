@@ -8,44 +8,62 @@ interface BulletinCardProps {
 const BulletinCard: React.FC<BulletinCardProps> = ({ bulletin }) => {
   const dateObj = new Date(bulletin.publishDate);
   const day = dateObj.toLocaleDateString('id-ID', { day: 'numeric' });
-  const month = dateObj.toLocaleDateString('id-ID', { month: 'short' });
+  const month = dateObj.toLocaleDateString('id-ID', { month: 'long' });
   const year = dateObj.toLocaleDateString('id-ID', { year: 'numeric' });
+  const fullDate = dateObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
-      <div className="flex flex-col md:flex-row h-full">
-        {/* Date Column */}
-        <div className="bg-blue-50 text-primary p-3 md:p-4 md:w-24 flex flex-row md:flex-col items-center justify-center gap-2 md:gap-0 border-b md:border-b-0 md:border-r border-blue-100 shrink-0">
-          <span className="text-xl md:text-3xl font-bold leading-none">{day}</span>
-          <span className="uppercase text-sm font-semibold tracking-wide">{month}</span>
-          <span className="text-sm md:text-xs text-gray-500 md:mt-1">{year}</span>
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full group overflow-hidden">
+      {/* Top Decoration Line */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-primary to-blue-400"></div>
+      
+      <div className="p-5 flex flex-col flex-grow">
+        {/* Header: Date Badge & Meta */}
+        <div className="flex justify-between items-start mb-4">
+          <div className="bg-blue-50 text-primary rounded-lg px-3 py-1.5 flex flex-col items-center min-w-[60px] border border-blue-100">
+            <span className="text-xl font-bold leading-none">{day}</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider mt-0.5">{dateObj.toLocaleDateString('id-ID', { month: 'short' })}</span>
+          </div>
+          <div className="text-right">
+             <span className="text-xs font-medium text-gray-400 block">{year}</span>
+          </div>
         </div>
 
-        {/* Content Column */}
-        <div className="p-4 md:p-5 flex-grow flex flex-col justify-between">
-          <div className="mb-4">
-            <h3 className="font-bold text-lg text-gray-800 group-hover:text-primary transition-colors mb-2">
-              <a href={bulletin.driveLink} target="_blank" rel="noopener noreferrer" className="hover:underline decoration-2 decoration-accent">
-                {bulletin.title}
-              </a>
-            </h3>
-            {bulletin.summary && (
-              <p className="text-gray-600 text-sm italic border-l-2 border-accent pl-3">
-                "{bulletin.summary}"
-              </p>
-            )}
-          </div>
-          
-          <div className="flex items-center justify-end mt-auto">
-             <a 
-              href={bulletin.driveLink} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-full md:w-auto inline-flex items-center justify-center gap-2 text-sm font-semibold text-primary hover:text-secondary bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg md:rounded-full transition-colors"
-            >
-              <i className="fa-regular fa-file-pdf"></i>
-              Buka Warta
+        {/* Content */}
+        <div className="mb-4 flex-grow">
+          <h3 className="font-bold text-lg text-gray-800 group-hover:text-primary transition-colors leading-snug mb-2 line-clamp-2">
+            <a href={bulletin.driveLink} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
+              {bulletin.title}
             </a>
+          </h3>
+          
+          {bulletin.summary ? (
+            <div className="flex items-start gap-2 mt-3">
+              <i className="fa-solid fa-quote-left text-accent/50 text-xs mt-1 shrink-0"></i>
+              <p className="text-gray-600 text-sm italic line-clamp-3 leading-relaxed">
+                {bulletin.summary}
+              </p>
+            </div>
+          ) : (
+            <p className="text-gray-400 text-sm italic mt-2">
+              Klik tombol di bawah untuk melihat detail warta.
+            </p>
+          )}
+        </div>
+
+        {/* Footer / Action */}
+        <div className="mt-auto pt-4 border-t border-gray-50">
+           <a 
+            href={bulletin.driveLink} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-primary hover:bg-secondary py-2.5 px-4 rounded-lg transition-colors shadow-sm group-hover:shadow-md"
+          >
+            <i className="fa-regular fa-file-pdf"></i>
+            Baca Warta
+          </a>
+          <div className="text-center mt-2">
+             <p className="text-[10px] text-gray-400">{fullDate}</p>
           </div>
         </div>
       </div>
