@@ -12,6 +12,7 @@ const AdminView: React.FC = () => {
     publishDate: new Date().toISOString().split('T')[0],
     driveLink: ''
   });
+  const [searchQuery, setSearchQuery] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [autoSummary, setAutoSummary] = useState('');
@@ -120,6 +121,12 @@ const AdminView: React.FC = () => {
     }
   };
 
+  // Filter Logic
+  const filteredBulletins = bulletins.filter(b => 
+    b.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    b.publishDate.includes(searchQuery)
+  );
+
   return (
     <div className="container mx-auto px-4 py-6 md:py-8 max-w-5xl">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -217,11 +224,27 @@ const AdminView: React.FC = () => {
         {/* List Section */}
         <div className="lg:col-span-2 order-2 lg:order-2">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="px-4 md:px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+            <div className="px-4 md:px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center flex-wrap gap-2">
               <h2 className="font-bold text-gray-800 text-sm md:text-base">Daftar Warta Terupload</h2>
               <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full whitespace-nowrap">
-                {bulletins.length} File
+                {filteredBulletins.length} File
               </span>
+            </div>
+
+            {/* Search Bar for Admin */}
+            <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i className="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Cari warta berdasarkan judul atau tanggal..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                />
+              </div>
             </div>
             
             {isLoading ? (
@@ -229,13 +252,13 @@ const AdminView: React.FC = () => {
                   <div className="animate-spin inline-block w-6 h-6 border-2 border-primary border-t-transparent rounded-full mb-2"></div>
                   <p>Mengambil data...</p>
                </div>
-            ) : bulletins.length === 0 ? (
+            ) : filteredBulletins.length === 0 ? (
               <div className="p-8 text-center text-gray-500">
-                Belum ada data. Silakan upload warta baru.
+                {searchQuery ? "Warta tidak ditemukan." : "Belum ada data. Silakan upload warta baru."}
               </div>
             ) : (
               <div className="divide-y divide-gray-100">
-                {bulletins.map((b) => (
+                {filteredBulletins.map((b) => (
                   <div key={b.id} className={`p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 transition-colors gap-3 md:gap-4 ${editingId === b.id ? 'bg-blue-50' : ''}`}>
                     <div className="flex-1 w-full sm:w-auto">
                       <div className="flex items-center gap-2 mb-1">

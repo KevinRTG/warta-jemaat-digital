@@ -50,7 +50,7 @@ const Header: React.FC = () => {
               </Link>
             </li>
             
-            {isAdminLoggedIn && (
+            {isAdminLoggedIn ? (
               <>
                  <li>
                   <Link 
@@ -69,6 +69,15 @@ const Header: React.FC = () => {
                   </button>
                 </li>
               </>
+            ) : (
+              <li>
+                <Link 
+                  to="/login" 
+                  className="bg-secondary text-white px-3 py-1.5 md:py-2 rounded hover:bg-blue-900 transition-colors"
+                >
+                  Portal
+                </Link>
+              </li>
             )}
           </ul>
         </nav>
