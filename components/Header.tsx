@@ -28,34 +28,34 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-primary shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-3 md:py-4 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="bg-white p-2 rounded-full text-primary w-10 h-10 flex items-center justify-center font-bold text-xl group-hover:scale-105 transition-transform">
+          <div className="bg-white p-2 rounded-full text-primary w-8 h-8 md:w-10 md:h-10 flex items-center justify-center font-bold text-lg md:text-xl group-hover:scale-105 transition-transform shrink-0">
             <i className="fa-solid fa-church"></i>
           </div>
-          <div>
-            <h1 className="text-white font-bold text-xl leading-tight">GKO Cibitung</h1>
-            <p className="text-blue-200 text-xs font-medium tracking-wider">WARTA JEMAAT DIGITAL</p>
+          <div className="text-center sm:text-left">
+            <h1 className="text-white font-bold text-lg md:text-xl leading-tight">GKO Cibitung</h1>
+            <p className="text-blue-200 text-[10px] md:text-xs font-medium tracking-wider">WARTA JEMAAT DIGITAL</p>
           </div>
         </Link>
 
-        <nav>
-          <ul className="flex gap-4 text-sm font-medium items-center">
+        <nav className="w-full sm:w-auto">
+          <ul className="flex gap-2 md:gap-4 text-xs md:text-sm font-medium items-center justify-center sm:justify-end">
             <li>
               <Link 
                 to="/" 
-                className="text-blue-100 hover:text-white transition-colors"
+                className="text-blue-100 hover:text-white transition-colors py-2 px-2"
               >
                 Jemaat
               </Link>
             </li>
             
-            {isAdminLoggedIn ? (
+            {isAdminLoggedIn && (
               <>
                  <li>
                   <Link 
                     to="/admin" 
-                    className="text-blue-100 hover:text-white transition-colors"
+                    className="text-blue-100 hover:text-white transition-colors py-2 px-2"
                   >
                     Dashboard
                   </Link>
@@ -63,21 +63,12 @@ const Header: React.FC = () => {
                 <li>
                   <button 
                     onClick={handleLogout}
-                    className="bg-secondary text-white px-3 py-2 rounded hover:bg-blue-900 transition-colors flex items-center gap-2"
+                    className="bg-secondary text-white px-3 py-1.5 md:py-2 rounded hover:bg-blue-900 transition-colors flex items-center gap-2"
                   >
                     <i className="fa-solid fa-right-from-bracket"></i> Keluar
                   </button>
                 </li>
               </>
-            ) : (
-              <li>
-                <Link 
-                  to="/login" 
-                  className="bg-secondary text-white px-3 py-2 rounded hover:bg-blue-900 transition-colors"
-                >
-                  Login Admin
-                </Link>
-              </li>
             )}
           </ul>
         </nav>

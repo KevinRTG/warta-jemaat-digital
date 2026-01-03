@@ -26,13 +26,13 @@ const LoginView: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full border border-gray-100">
+    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-8">
+      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-md w-full border border-gray-100">
         <div className="text-center mb-6">
           <div className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
             <i className="fa-solid fa-lock"></i>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">Admin Login</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">Admin Login</h2>
           <p className="text-gray-500 text-sm">Masuk untuk mengelola warta jemaat.</p>
         </div>
 

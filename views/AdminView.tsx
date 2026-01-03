@@ -121,12 +121,12 @@ const AdminView: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="container mx-auto px-4 py-6 md:py-8 max-w-5xl">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         
         {/* Form Section */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-lg p-6 sticky top-24">
+        <div className="lg:col-span-1 order-1 lg:order-1">
+          <div className="bg-white rounded-lg shadow-lg p-5 md:p-6 static lg:sticky lg:top-24">
             <h2 className="text-xl font-bold mb-4 text-gray-800 flex items-center gap-2">
               <i className={`fa-solid ${editingId ? 'fa-pen-to-square' : 'fa-cloud-arrow-up'} text-primary`}></i>
               {editingId ? 'Edit Warta' : 'Upload Warta'}
@@ -172,7 +172,7 @@ const AdminView: React.FC = () => {
 
               {/* AI Feature */}
               <div className="bg-blue-50 p-3 rounded-md border border-blue-100">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
                   <span className="text-xs font-bold text-blue-800 flex items-center gap-1">
                     <i className="fa-solid fa-wand-magic-sparkles"></i> AI Assistant
                   </span>
@@ -180,7 +180,7 @@ const AdminView: React.FC = () => {
                     type="button"
                     onClick={handleGenerateSummary}
                     disabled={isGenerating || !formData.title}
-                    className="text-xs bg-white border border-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-100 disabled:opacity-50"
+                    className="text-xs w-full sm:w-auto bg-white border border-blue-200 text-blue-700 px-2 py-1 rounded hover:bg-blue-100 disabled:opacity-50 text-center"
                   >
                     {isGenerating ? 'Memproses...' : 'Buat Refleksi Singkat'}
                   </button>
@@ -196,7 +196,7 @@ const AdminView: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="flex-1 bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-md transition-colors shadow-md disabled:opacity-50"
+                  className="flex-1 bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded-md transition-colors shadow-md disabled:opacity-50 text-sm md:text-base"
                 >
                   {isLoading ? 'Loading...' : (editingId ? 'Update Warta' : 'Simpan Warta')}
                 </button>
@@ -204,7 +204,7 @@ const AdminView: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCancelEdit}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-md transition-colors"
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-md transition-colors text-sm md:text-base"
                   >
                     Batal
                   </button>
@@ -215,11 +215,11 @@ const AdminView: React.FC = () => {
         </div>
 
         {/* List Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 order-2 lg:order-2">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-              <h2 className="font-bold text-gray-800">Daftar Warta Terupload</h2>
-              <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+            <div className="px-4 md:px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+              <h2 className="font-bold text-gray-800 text-sm md:text-base">Daftar Warta Terupload</h2>
+              <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full whitespace-nowrap">
                 {bulletins.length} File
               </span>
             </div>
@@ -236,26 +236,26 @@ const AdminView: React.FC = () => {
             ) : (
               <div className="divide-y divide-gray-100">
                 {bulletins.map((b) => (
-                  <div key={b.id} className={`p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 transition-colors gap-4 ${editingId === b.id ? 'bg-blue-50' : ''}`}>
-                    <div className="flex-1">
+                  <div key={b.id} className={`p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center hover:bg-gray-50 transition-colors gap-3 md:gap-4 ${editingId === b.id ? 'bg-blue-50' : ''}`}>
+                    <div className="flex-1 w-full sm:w-auto">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-bold text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded">
                           {b.publishDate}
                         </span>
                       </div>
-                      <h4 className="font-bold text-gray-800">{b.title}</h4>
+                      <h4 className="font-bold text-gray-800 text-sm md:text-base">{b.title}</h4>
                       <a 
                         href={b.driveLink} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="text-sm text-blue-600 hover:underline truncate block max-w-xs"
+                        className="text-sm text-blue-600 hover:underline truncate block max-w-full sm:max-w-xs"
                       >
                         {b.driveLink}
                       </a>
                       {b.summary && <p className="text-xs text-gray-500 mt-1 italic">"{b.summary}"</p>}
                     </div>
                     
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 self-end sm:self-center">
                       <button
                         onClick={() => handleEdit(b)}
                         className="text-blue-500 hover:text-blue-700 p-2 rounded-full hover:bg-blue-100 transition-colors"
